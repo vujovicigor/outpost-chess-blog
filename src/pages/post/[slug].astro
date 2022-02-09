@@ -1,6 +1,7 @@
 ---
 import { Markdown } from 'astro/components';
 import BaseLayout from '../../layouts/BaseLayout.astro'
+import Counter from '../../components/Counter.svelte'
 import Clock from '../../components/Clock.svelte';
 export async function getStaticPaths() {
     const data = await fetch('https://app.outpostchess.com/api/v2/public_blog').then(response => response.json());
@@ -37,7 +38,9 @@ const {title, content_md, description, content_html, created_by_name, created_da
     </center>
 
     <div>
-        <div style="width:80px; float:right">
+        <Counter client:load></Counter>
+
+        <div style="width:80px; float:right; position: sticky; top: 0;">
             <Clock client:only></Clock>
         </div>
 
