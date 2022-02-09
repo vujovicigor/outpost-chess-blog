@@ -1,0 +1,26 @@
+---
+// src/layouts/BaseLayout.astro
+const {title} = Astro.props;
+const items = await fetch('https://app.outpostchess.com/api/v2/public_blog').then(response => response.json());
+---
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Example Layout: {title}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css"> 
+<!--    <link rel="stylesheet" href="https://unpkg.com/papercss@1.8.3/dist/paper.min.css">-->
+    
+    <link rel="stylesheet" href="/prism.css">
+  </head>
+  <body>
+    <nav style="display: flex; flex-direction: row; justify-content: space-evenly;">
+        <a href=`/`>Home</a>
+
+      {items.map((item) => (
+        <a href=`/post/${item.props.slug}`>{item.props.title} </a>
+    ))}
+    </nav>
+    <!-- slot: your page content will be injected here. -->
+    <slot />
+  </body>
+</html>

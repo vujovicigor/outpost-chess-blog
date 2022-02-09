@@ -1,0 +1,34 @@
+---
+import { Markdown } from 'astro/components';
+import BaseLayout from '../../layouts/BaseLayout.astro'
+export async function getStaticPaths() {
+    const data = await fetch('https://app.outpostchess.com/api/v2/public_blog').then(response => response.json());
+    return data
+/*
+  return [
+    { params: { slug:"jedan" }, props: {  } },
+    { params: { slug:"tri" } },
+  ];
+  */
+}
+const {slug} = Astro.request.params;
+const {title, content_md, description, content_html} = Astro.props;
+
+---
+
+<BaseLayout title={title}>
+    <center style="
+        position: relative;
+        left: calc(-1*(100vw - 100%)/2 - 5px);
+        width: 100vw;
+        height:16rem; 
+        background-color:#666;      
+        display: flex;
+        flex-direction: column;
+        justify-content: center;">
+        <h1 style="color:#eee;">{title}</h1>
+    </center>
+    <div>
+        <Markdown content={content_md} /> 
+    </div>
+</BaseLayout>

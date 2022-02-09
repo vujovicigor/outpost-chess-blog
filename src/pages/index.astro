@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+const items = await fetch('https://app.outpostchess.com/api/v2/public_blog').then(response => response.json());
+---
+<BaseLayout title="Homepage">
+    <center style="
+    position: relative;
+    left: calc(-1*(100vw - 100%)/2 - 5px);
+    width: 100vw;
+    height:16rem; 
+    background-color:#666;      
+    display: flex;
+    flex-direction: column;
+    justify-content: center;">
+    <h1 style="color:#eee;">Outpost chess blog</h1>
+    </center>
+    <div style="max-width:400px; margin: auto;">
+        {items.map((item) => (
+            <>
+            <a href=`/post/${item.props.slug}`> 
+                <h2>{item.props.title}        
+                </h2>
+                <h3>{item.props.description}
+                </h3>
+            </a>
+            <p>Posted by <i>{item.props.created_by_name} on {(new Date(item.props.created_date)).toLocaleDateString()} </i></p>
+            <hr>
+            </>
+        ))}
+    <div>
+</BaseLayout>
