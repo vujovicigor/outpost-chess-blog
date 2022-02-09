@@ -1,9 +1,8 @@
-# Astro + Svelte Example
+# Astro + Svelte blog from remote url
 
 ```
-npm init astro -- --template framework-svelte
+npm run dev
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/framework-svelte)
+[Demo](https://astro-iota.vercel.app/post/s)]
 
-This example showcases Astro working with [Svelte](https://svelte.dev/).
