@@ -38,11 +38,16 @@ const {title, content_md, description, content_html, created_by_name, created_da
     </center>
 
     <div>
-        <Counter client:load></Counter>
 
-        <div style="width:80px; float:right; position: sticky; top: 0;">
+        <div style="width:150px; height:100px; float:right; position: sticky; top: 0;  border: solid 1px red;
+  border-radius: 50%; display: flex; background-color: #fff;">
             <Clock client:load></Clock>
         </div>
+        <div style="width:150px; height:100px; float:left; position: sticky; top: 0;  border: solid 1px red;
+  border-radius: 50%; display: flex; background-color: #fff; ">
+            <Clock client:load></Clock>
+        </div>
+        <Counter client:load></Counter>
 
         <Markdown content={content_md} /> 
     </div>

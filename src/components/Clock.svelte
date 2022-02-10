@@ -1,104 +1,42 @@
 <script>
 	import { onMount } from 'svelte';
-
-	let time = new Date();
-
-	// these automatically update when `time`
-	// changes, because of the `$:` prefix
-	$: hours = time.getHours();
-	$: minutes = time.getMinutes();
-	$: seconds = time.getSeconds();
-
+	let eyeBall, pupil, eyeArea,pupilArea,R, r, centerX, centerY, eventListener;
+	function onMouseMove(e){
+		let x = e.clientX - centerX,
+				y = e.clientY - centerY,
+				theta = Math.atan2(y,x),
+				angle = theta*180/Math.PI + 360;
+		pupil.style.transform = `translateX(${R - r +"px"}) rotate(${angle + "deg"})`;
+		pupil.style.transformOrigin = `${r +"px"} center`;
+	}
+	
 	onMount(() => {
-		const interval = setInterval(() => {
-			time = new Date();
-		}, 1000);
-
-		return () => {
-			clearInterval(interval);
-		};
+		eyeArea = eyeBall.getBoundingClientRect()
+    pupilArea = pupil.getBoundingClientRect()
+    R = eyeArea.width/2
+    r = pupilArea.width/2
+    centerX = eyeArea.left + R
+    centerY = eyeArea.top + R
+		console.log(eyeArea,pupilArea,R, r, centerX, centerY)
+		document.addEventListener("mousemove", onMouseMove);
+		
+		return function(){console.log('removed event ',  onMouseMove);document.removeEventListener("mousemove", onMouseMove)}
 	});
+
 </script>
-
-<svg viewBox='-50 -50 100 100'>
-	<circle class='clock-face' r='48'/>
-
-	<!-- markers -->
-	{#each [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55] as minute}
-		<line
-			class='major'
-			y1='35'
-			y2='45'
-			transform='rotate({30 * minute})'
-		/>
-
-		{#each [1, 2, 3, 4] as offset}
-			<line
-				class='minor'
-				y1='42'
-				y2='45'
-				transform='rotate({6 * (minute + offset)})'
-			/>
-		{/each}
-	{/each}
-
-	<!-- hour hand -->
-	<line
-		class='hour'
-		y1='2'
-		y2='-20'
-		transform='rotate({30 * hours + minutes / 2})'
-	/>
-
-	<!-- minute hand -->
-	<line
-		class='minute'
-		y1='4'
-		y2='-30'
-		transform='rotate({6 * minutes + seconds / 10})'
-	/>
-
-	<!-- second hand -->
-	<g transform='rotate({6 * seconds})'>
-		<line class='second' y1='10' y2='-38'/>
-		<line class='second-counterweight' y1='10' y2='2'/>
-	</g>
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="100" height="100" class="eye">
+  <circle cx="50" cy="50" r="50" fill="#fff" class="eyeball" bind:this={eyeBall} />
+  <circle cx="50" cy="50" r="24" fill="#0D0D20" class="pupil" bind:this={pupil} />
 </svg>
-
 <style>
-	svg {
-		width: 100%;
-		height: 100%;
-	}
+.eye{
+  margin: auto;
 
-	.clock-face {
-		stroke: #333;
-		fill: white;
-	}
-
-	.minor {
-		stroke: #999;
-		stroke-width: 0.5;
-	}
-
-	.major {
-		stroke: #333;
-		stroke-width: 1;
-	}
-
-	.hour {
-		stroke: #333;
-	}
-
-	.minute {
-		stroke: #666;
-	}
-
-	.second, .second-counterweight {
-		stroke: rgb(180,0,0);
-	}
-
-	.second-counterweight {
-		stroke-width: 3;
-	}
+/*   background:#ccc; */
+}
+.pupil{
+  position:relative;
+   transform:  rotate(15deg); 
+/*   transform-origin: 20px center; */
+}
 </style>
